@@ -18,15 +18,16 @@ jobs:
       - name: Get Version
         id: get_version
         run: |
-        # Get the Tag from the GitHub reference. This will be in the format 'refs/tags/v1.0.0'
-        # TAG=${GITHUB_REF#refs/tags/}
-        TAG="v0.0.1"
-        # Remove the 'v' prefix if it exists
-        VERSION=$(echo $TAG | sed 's/^v//')
+          # Get the Tag from the GitHub reference. This will be in the format 'refs/tags/v1.0.0'
+          TAG=${GITHUB_REF#refs/tags/}
+          echo "TAG=$TAG"
+          TAG="v0.0.1"
+          # Remove the 'v' prefix if it exists
+          VERSION=$(echo $TAG | sed 's/^v//')
 
-        # Set environment variables that can be used in subsequent steps, eg. "env.VERSION""
-        echo "TAG=$TAG" >> $GITHUB_ENV
-        echo "VERSION=$VERSION" >> $GITHUB_ENV
+          # Set environment variables that can be used in subsequent steps, eg. "env.VERSION""
+          echo "TAG=$TAG" >> $GITHUB_ENV
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
 
       - name: Set up Node.js
         uses: actions/setup-node@v3
