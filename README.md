@@ -1,14 +1,21 @@
 # Sieve Syntax Highlighting for VS Code
 
-A [Visual Studio extension](https://learn.microsoft.com/en-us/visualstudio/ide/finding-and-using-visual-studio-extensions?view=vs-2022) that provides syntax highlighting for the Sieve email filtering language as specified by [RFC 5228](https://tools.ietf.org/html/rfc5228).
+A [Visual Studio extension](https://marketplace.visualstudio.com/items?itemName=scottsmereka.vscode-sieve) that provides syntax highlighting for the Sieve email filtering language as specified by [RFC 5228](https://tools.ietf.org/html/rfc5228).
 
-After installing the VS Code Extension, files that end in `.sieve` will have proper syntax highlighting: 
+# How to use?
+
+Install [Sieve Syntax Highlighting](https://marketplace.visualstudio.com/items?itemName=scottsmereka.vscode-sieve) by clicking `Extensions`, searching for `Sieve Syntax Highlighting`, and clicking `install`. ([guide](https://learn.microsoft.com/en-us/visualstudio/ide/finding-and-using-visual-studio-extensions?view=vs-2022))
+
+
+After install, files that end in `.sieve` will have proper syntax highlighting: 
 
 ![Screenshot 2024-09-15 at 2 34 47 PM](https://github.com/user-attachments/assets/e8ca4970-19d2-4a8e-880a-60f4cfdd5ca2)
 
 You should also see `Sieve` as Language option in the bottom right corner of the workspace.
 
 ![Screenshot 2024-09-15 at 2 29 52 PM](https://github.com/user-attachments/assets/5e6a0bcc-066c-4a53-9588-30c85cac1672)
+
+🎉
 
 # How to Contribute
 
