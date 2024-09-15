@@ -15,19 +15,29 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v3
 
-      - name: Get Version
-        id: get_version
+      - name: Get Versions
+        id: get_versions
         run: |
           # Get the Tag from the GitHub reference. This will be in the format 'refs/tags/v1.0.0'
           TAG=${GITHUB_REF#refs/tags/}
-          echo "TAG=$TAG"
           TAG="v0.0.1"
+          echo "Tag: $TAG"
+          echo "TAG=$TAG" >> $GITHUB_ENV
+
+          # Get the Semantic Version from the Tag. This will be in the format '1.0.0'
           # Remove the 'v' prefix if it exists
           VERSION=$(echo $TAG | sed 's/^v//')
-
-          # Set environment variables that can be used in subsequent steps, eg. "env.VERSION""
-          echo "TAG=$TAG" >> $GITHUB_ENV
           echo "VERSION=$VERSION" >> $GITHUB_ENV
+          echo "Version: $VERSION"
+
+          # Get the Semantic Version from the package.json file. This will be in the format '1.0.0'
+          PACKAGE_VERSION=$(node -p "require('./package.json').version")
+
+          # Make sure the Tag version matches the package.json version
+          if [ "$VERSION" != "$PACKAGE_VERSION" ]; then
+            echo "The Tag version ($VERSION) does not match the package.json version ($PACKAGE_VERSION)"
+            exit 1
+          fi
 
       - name: Set up Node.js
         uses: actions/setup-node@v3
