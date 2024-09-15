@@ -41,9 +41,9 @@ jobs:
           fi
 
       - name: Set up Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '22'
 
       - name: Install VSCE
         run: npm install -g @vscode/vsce
@@ -61,6 +61,7 @@ jobs:
           path: ./sieve-${{ env.TAG }}.vsix
           compression-level: 0
           if-no-files-found: error
+          overwrite: true
 
       - name: Publish VSCE Package
         run: vsce publish --pat ${{ secrets.VSCE_PAT }}
