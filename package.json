@@ -17,7 +17,7 @@
     }]
   },
   "description": "Syntax highlighting for the Sieve email filtering language as specified by RFC 5228",
-  "displayName": "Sieve Syntax Highlighting",
+  "displayName": "Sieve",
   "engines": {
     "vscode": "^1.93.0"
   },

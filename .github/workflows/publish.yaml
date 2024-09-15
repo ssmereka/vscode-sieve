@@ -2,8 +2,6 @@ name: Publish Extension
 
 on:
   push:
-    branches:
-      - auto-publish
     tags:
       - 'v[0-9]+\.[0-9]+\.[0-9]'
 
@@ -20,7 +18,6 @@ jobs:
         run: |
           # Get the Tag from the GitHub reference. This will be in the format 'refs/tags/v1.0.0'
           TAG=${GITHUB_REF#refs/tags/}
-          TAG="v0.0.2"
           echo "Tag: $TAG"
           echo "TAG=$TAG" >> $GITHUB_ENV
 
@@ -38,6 +35,8 @@ jobs:
           if [ "$VERSION" != "$PACKAGE_VERSION" ]; then
             echo "Error: The Tag version ($VERSION) does not match the package.json version ($PACKAGE_VERSION)"
             exit 1
+          else
+            echo "The Tag version ($VERSION) matches the package.json version ($PACKAGE_VERSION)"
           fi
 
       - name: Set up Node.js
