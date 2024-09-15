@@ -1,0 +1,66 @@
+name: Publish Extension
+
+on:
+  push:
+    tags:
+      - 'v[0-9]+\.[0-9]+\.[0-9]'
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v3
+
+      - name: Get Versions
+        id: get_versions
+        run: |
+          # Get the Tag from the GitHub reference. This will be in the format 'refs/tags/v1.0.0'
+          TAG=${GITHUB_REF#refs/tags/}
+          echo "Tag: $TAG"
+          echo "TAG=$TAG" >> $GITHUB_ENV
+
+          # Get the Semantic Version from the Tag. This will be in the format '1.0.0'
+          # Remove the 'v' prefix if it exists
+          VERSION=$(echo $TAG | sed 's/^v//')
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
+          echo "Version: $VERSION"
+
+          # Get the Semantic Version from the package.json file. This will be in the format '1.0.0'
+          PACKAGE_VERSION=$(node -p "require('./package.json').version")
+          echo "Package.json Version: $PACKAGE_VERSION"
+
+          # Make sure the Tag version matches the package.json version
+          if [ "$VERSION" != "$PACKAGE_VERSION" ]; then
+            echo "Error: The Tag version ($VERSION) does not match the package.json version ($PACKAGE_VERSION)"
+            exit 1
+          else
+            echo "The Tag version ($VERSION) matches the package.json version ($PACKAGE_VERSION)"
+          fi
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Install VSCE
+        run: npm install -g @vscode/vsce
+
+      - name: List files to be packaged
+        run: vsce ls --tree
+      
+      - name: Build VSCE Package
+        run: vsce package --out sieve-${{ env.TAG }}.vsix
+
+      - name: Upload VSIX Package
+        uses: actions/upload-artifact@v4
+        with:
+          name: sieve-${{ env.TAG }}.vsix
+          path: ./sieve-${{ env.TAG }}.vsix
+          compression-level: 0
+          if-no-files-found: error
+          overwrite: true
+
+      - name: Publish VSCE Package
+        run: vsce publish --pat ${{ secrets.VSCE_PAT }}
