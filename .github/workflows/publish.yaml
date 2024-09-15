@@ -3,8 +3,9 @@ name: Publish Extension
 on:
   push:
     branches:
-      - main
       - auto-publish
+    tags:
+      - 'v[0-9]+\.[0-9]+\.[0-9]'
 
 jobs:
   publish:
@@ -14,6 +15,19 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v3
 
+      - name: Get Version
+        id: get_version
+        run: |
+        # Get the Tag from the GitHub reference. This will be in the format 'refs/tags/v1.0.0'
+        # TAG=${GITHUB_REF#refs/tags/}
+        TAG="v0.0.1"
+        # Remove the 'v' prefix if it exists
+        VERSION=$(echo $TAG | sed 's/^v//')
+
+        # Set environment variables that can be used in subsequent steps, eg. "env.VERSION""
+        echo "TAG=$TAG" >> $GITHUB_ENV
+        echo "VERSION=$VERSION" >> $GITHUB_ENV
+
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
@@ -22,8 +36,19 @@ jobs:
       - name: Install VSCE
         run: npm install -g @vscode/vsce
 
+      - name: List files to be packaged
+        run: vsce ls --tree
+      
       - name: Build VSCE Package
-        run: vsce package
+        run: vsce package --out sieve-${{ env.TAG }}.vsix
+
+      - name: Upload VSIX Package
+        uses: actions/upload-artifact@v4
+        with:
+          name: sieve-${{ env.TAG }}.vsix
+          path: ./sieve-${{ env.TAG }}.vsix
+          compression-level: 0
+          if-no-files-found: error
 
       - name: Publish VSCE Package
         run: vsce publish --pat ${{ secrets.VSCE_PAT }}
