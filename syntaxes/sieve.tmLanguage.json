@@ -1,0 +1,111 @@
+{
+	"$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+	"name": "Sieve",
+	"patterns": [
+		{
+			"include": "#comments"
+		},
+		{
+			"include": "#keywords"
+		},
+		{
+			"include": "#commands"
+		},
+		{
+			"include": "#tests"
+		},
+		{
+			"include": "#comparators"
+		},
+		{
+			"include": "#tags"
+		},
+		{
+			"include": "#variables"
+		},
+		{
+			"include": "#strings"
+		}
+	],
+	"repository": {
+		"comments": {
+			"patterns": [
+				{
+					"name": "comment.line.number-sign.sieve",
+					"match": "#.*$"
+				},
+				{
+					"name": "comment.block.sieve",
+					"begin": "/\\*",
+					"end": "\\*/",
+					"patterns": [
+						{
+							"name": "comment.block.sieve",
+							"match": "[^*/]+"
+						}
+					]
+				}
+			]
+		},
+		"keywords": {
+			"patterns": [
+				{
+					"name": "keyword.control.sieve",
+					"match": "\\b(if|elsif|else|stop|require)\\b"
+				}
+			]
+		},
+		"commands": {
+			"patterns": [
+				{
+					"name": "keyword.control.command.sieve",
+					"match": "\\b(keep|discard|redirect|fileinto|reject|vacation|set|notify|denotify|enotify)\\b"
+				}
+			]
+		},
+		"tests": {
+			"patterns": [
+				{
+					"name": "keyword.control.test.sieve",
+					"match": "\\b(header|address|envelope|exists|size|body|not|allof|anyof|hasflag|spamtest|virustest|true|false|environment)\\b"
+				}
+			]
+		},
+		"comparators": {
+			"patterns": [
+				{
+					"name": "keyword.operator.comparator.sieve",
+					"match": "\\b(comparator)\\b"
+				}
+			]
+		},
+		"tags": {
+			"patterns": [
+				{
+					"name": "keyword.operator.tag.sieve",
+					"match": "\\b(:comparator|:is|:contains|:matches|:count|:value|:over|:under|:all|:addresses|:localpart|:domain|:detail|:personal|:from|:subject|:text|:raw|:content|:comparator|:quotable|:quote|:add|:delete|:create|:append|:replace|:modify)\\b"
+				}
+			]
+		},
+		"variables": {
+			"patterns": [
+				{
+					"name": "variable.language.sieve",
+					"match": "\\b(global|:local|:global|:quotable)\\b"
+				}
+			]
+		},
+		"strings": {
+			"name": "string.quoted.double.sieve",
+			"begin": "\"",
+			"end": "\"",
+			"patterns": [
+				{
+					"name": "constant.character.escape.sieve",
+					"match": "\\\\."
+				}
+			]
+		}
+	},
+	"scopeName": "source.sieve"
+}

@@ -1,0 +1,39 @@
+{
+  "name": "vscode-sieve",
+  "displayName": "Sieve",
+  "version": "0.0.1",
+  "description": "Syntax highlighting for the Sieve email filtering language as specified by RFC 5228",
+  "homepage": "https://github.com/ssmereka/vscode-sieve#readme",
+  "license": "BSD-2-Clause",
+  "author": "Scott Smereka",
+  "keywords": [
+    "email",
+    "fastmail",
+    "filtering",
+    "highlighting",
+    "proton",
+    "rs5228",
+    "sieve",
+    "syntax",
+    "vscode"
+  ],
+  "engines": {
+    "vscode": "^1.93.0"
+  },
+  "categories": [
+    "Programming Languages"
+  ],
+  "contributes": {
+    "languages": [{
+      "id": "sieve",
+      "aliases": ["Sieve", "sieve"],
+      "extensions": [".sieve"],
+      "configuration": "./language-configuration.json"
+    }],
+    "grammars": [{
+      "language": "sieve",
+      "scopeName": "source.sieve",
+      "path": "./syntaxes/sieve.tmLanguage.json"
+    }]
+  }
+}
