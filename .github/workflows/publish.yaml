@@ -1,0 +1,29 @@
+name: Publish Extension
+
+on:
+  push:
+    branches:
+      - main
+      - test
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+
+      - name: Install VSCE
+        run: npm install -g @vscode/vsce
+
+      - name: Build VSCE Package
+        run: vsce package
+
+      - name: Publish VSCE Package
+        run: vsce publish --pat ${{ secrets.VSCE_PAT }}
