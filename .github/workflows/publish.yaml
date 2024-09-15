@@ -20,7 +20,7 @@ jobs:
         run: |
           # Get the Tag from the GitHub reference. This will be in the format 'refs/tags/v1.0.0'
           TAG=${GITHUB_REF#refs/tags/}
-          TAG="v0.0.1"
+          TAG="v0.0.2"
           echo "Tag: $TAG"
           echo "TAG=$TAG" >> $GITHUB_ENV
 
@@ -32,10 +32,11 @@ jobs:
 
           # Get the Semantic Version from the package.json file. This will be in the format '1.0.0'
           PACKAGE_VERSION=$(node -p "require('./package.json').version")
+          echo "Package.json Version: $PACKAGE_VERSION"
 
           # Make sure the Tag version matches the package.json version
           if [ "$VERSION" != "$PACKAGE_VERSION" ]; then
-            echo "The Tag version ($VERSION) does not match the package.json version ($PACKAGE_VERSION)"
+            echo "Error: The Tag version ($VERSION) does not match the package.json version ($PACKAGE_VERSION)"
             exit 1
           fi
 
